@@ -50,3 +50,10 @@ html {
    /* Style information will go here */
    html { font-size: 120%; }
  }
+ .clearfix::after {
+   content: ".";
+   visibility: hidden;
+   display: block;
+   height: 0;
+   clear: both;
+}
