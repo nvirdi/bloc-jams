@@ -1,3 +1,24 @@
+var togglePlayFromPlayerBar = function() {
+// if song is paused replace song with clicked song and play
+// if song is playing pause song and replace song with clicked song & play
+console.log('this', this)
+console.log(currentSoundFile)
+  if(currentSoundFile){
+    // var cell = $(this).find('.song-item-number')
+    if(currentSoundFile.isPaused()){
+      $('.play-pause').html(playerBarPlayButton);
+      // cell.html(playButtonTemplate)
+      currentSoundFile.play()
+    } else {
+      // cell.html(pauseButtonTemplate)
+      $('.play-pause').html(playerBarPauseButton);
+      currentSoundFile.pause()
+    }
+  } else {
+    return;
+  }
+}
+
 var setSong = function(songNumber) {
   if (currentSoundFile) {
     currentSoundFile.stop();
@@ -33,17 +54,17 @@ var createSongRow = function(songNumber, songName, songLength) {
 
      var $row = $(template);
      var clickHandler = function() {
-
        var songNumber = parseInt($(this).attr('data-song-number'));
 
 	      if (currentlyPlayingSongNumber !== null) {
 		    var currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
-		    currentlyPlayingCell.html(currentlyPlayingSongNumber);
+        // currentlyPlayingCell.html(currentlyPlayingSongNumber);
 	}
-	      if (currentlyPlayingSongNumber !== songNumber) {
-		    $(this).html(pauseButtonTemplate);
+	    if (currentlyPlayingSongNumber !== songNumber) {
         setSong(songNumber);
         currentSoundFile.play();
+        $(this).html(pauseButtonTemplate);
+        currentSongFromAlbum = currentAlbum.songs[songNumber -1];
         updatePlayerBarSong();
 	} else if (currentlyPlayingSongNumber === songNumber) {
     if (currentSoundFile.isPaused()) {
@@ -191,10 +212,13 @@ var $previousButton = $('.main-controls .previous');
 var $nextButton = $('.main-controls .next');
 
 
+var $playPauseBar = $('.main-controls .play-pause');
+
 $(document).ready(function() {
    setCurrentAlbum(albumPicasso);
    $previousButton.click(previousSong);
    $nextButton.click(nextSong);
+   $playPauseBar.click(togglePlayFromPlayerBar);
 });
   var albums = [albumPicasso, albumDrake, albumMarconi];
   var index = 1;
